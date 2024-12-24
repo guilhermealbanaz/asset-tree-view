@@ -35,6 +35,12 @@ npm run dev
 - `/src/utils`: Funções utilitárias
 - `/src/types`: Definições de tipos TypeScript
 
+## Preview
+
+
+https://github.com/user-attachments/assets/d1c6c1fe-ee42-45dc-8152-b2166600312a
+
+
 ## Autor
 
 Guilherme Bragato Albanaz
