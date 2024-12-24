@@ -16,7 +16,7 @@ export const ComponentDetails: React.FC<ComponentDetailsProps> = ({ component })
         <div className="flex items-start gap-8">
           <div className="w-[300px] h-[200px] bg-white rounded-lg overflow-hidden">
             <img 
-              src="/assets/image-gear.png" 
+              src="./assets/image-gear.png" 
               alt={component.name} 
               className="w-full h-full object-cover"
             />
@@ -43,7 +43,7 @@ export const ComponentDetails: React.FC<ComponentDetailsProps> = ({ component })
                 <h2 className="text-sm font-medium text-[#24292F] mb-2">Sensor</h2>
                 <div className="flex items-center gap-2">
                   <img 
-                    src="/assets/wifi_tethering.png" 
+                    src="./assets/wifi_tethering.png" 
                     alt="Sensor Icon" 
                     className="w-5 h-4"
                   />
@@ -54,7 +54,7 @@ export const ComponentDetails: React.FC<ComponentDetailsProps> = ({ component })
                 <h2 className="text-sm font-medium text-[#24292F] mb-2">Receptor</h2>
                 <div className="flex items-center gap-2">
                   <img 
-                    src="/assets/root.png" 
+                    src="./assets/root.png" 
                     alt="Receptor Icon" 
                     className="w-5 h-5"
                   />

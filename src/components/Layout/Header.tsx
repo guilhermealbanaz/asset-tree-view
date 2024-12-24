@@ -21,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="fixed top-0 left-0 right-0 w-full bg-[#1f1a24] text-white h-14 px-6 flex items-center justify-between z-50">
       <div className="flex items-center">
         <img 
-          src="/assets/logo.png" 
+          src="./assets/logo.png" 
           alt="Tractian" 
           className="h-4"
         />

@@ -20,10 +20,6 @@ export class TreeBuilder {
     return !!asset.sensorType && !!asset.status;
   }
 
-  private isLocation(item: any): boolean {
-    return !item.sensorType && !item.status && !item.parentId;
-  }
-
   private createLocationNode(location: any): TreeNode {
     return {
       id: location.id,

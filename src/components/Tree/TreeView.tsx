@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { TreeNode } from './TreeNode';
 import { TreeNode as TreeNodeType } from '../../types/Tree';
-import { FilterBar } from '../Filters/FilterBar';
 import { filterTree } from '../../utils/filterTree';
 import { Filters } from '../../types/Filters';
 import { TreeBuilder } from '../../utils/TreeBuilder';
@@ -19,7 +18,7 @@ interface TreeViewProps {
   companyName: string;
 }
 
-export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo, companyName }) => {
+export const TreeView: React.FC<TreeViewProps> = ({ data, companyName }) => {
   const [filters, setFilters] = useState<Filters>({
     searchText: '',
     energySensors: false,

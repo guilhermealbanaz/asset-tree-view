@@ -26,8 +26,8 @@ export const UnitButton: React.FC<UnitButtonProps> = ({
       `}
     >
       <img 
-        src="/assets/Vector.png" 
-        alt="" 
+        src="./assets/Vector.png" 
+        alt="Barra de ouro" 
         className="w-4.5 h-3.5"
       />
       <span className="text-white">{label + ' Unit'}</span>

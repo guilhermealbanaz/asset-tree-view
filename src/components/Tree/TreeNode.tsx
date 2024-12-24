@@ -11,8 +11,7 @@ interface TreeNodeProps {
 
 export const TreeNode: React.FC<TreeNodeProps> = ({ 
   node, 
-  level, 
-  isLastChild,
+  level,
   onNodeClick,
   forceExpanded = false
 }) => {
