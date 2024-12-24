@@ -17,18 +17,17 @@ export const UnitButton: React.FC<UnitButtonProps> = ({
     <button 
       onClick={() => onClick(companyId)}
       className={`
-        px-3 py-1.5 rounded-md text-base font-medium
-        flex items-center gap-2 transition-colors
+        flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
         ${isSelected 
-          ? 'bg-[#2188FF]' 
-          : 'bg-[#023B78] hover:bg-[#023B78]/90'
+          ? 'bg-[#1d4ed8] text-white hover:bg-[#1e40af]' 
+          : 'bg-[#2d2535] text-white hover:bg-[#3d3545]'
         }
       `}
     >
       <img 
         src="./assets/Vector.png" 
         alt="Barra de ouro" 
-        className="w-4.5 h-3.5"
+        className="w-4 h-3.5"
       />
       <span className="text-white">{label + ' Unit'}</span>
     </button>
