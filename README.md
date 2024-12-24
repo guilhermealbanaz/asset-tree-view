@@ -7,15 +7,13 @@ Este projeto é uma aplicação web desenvolvida como parte do desafio técnico 
 - Visualização hierárquica de ativos em estrutura de árvore
 - Seleção de empresas
 - Visualização detalhada de ativos
-- Interface responsiva e intuitiva
-- Indicadores visuais de status dos ativos
+- "Windowed Infinite Scroll" para empresas com muitos registros
 
 ## Tecnologias Utilizadas
 
 - React
 - TypeScript
 - Vite
-- CSS Modules
 - Axios para requisições HTTP
 
 ## Como Executar
