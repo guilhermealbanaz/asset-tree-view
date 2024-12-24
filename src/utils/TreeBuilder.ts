@@ -30,7 +30,9 @@ export class TreeBuilder {
       name: location.name,
       type: 'location',
       children: [],
-      parentId: location.parentId || null
+      parentId: location.parentId || null,
+      level: 0,
+      isLastChild: false
     };
   }
 
@@ -47,12 +49,13 @@ export class TreeBuilder {
       parentId: asset.parentId || null,
       locationId: asset.locationId || null,
       gatewayId: asset.gatewayId,
-      sensorId: asset.sensorId
+      sensorId: asset.sensorId,
+      level: 0,
+      isLastChild: false
     };
   }
 
   public build(): TreeNode[] {
-    // Primeiro, criar todos os nós
     this.locations.forEach(location => {
       this.nodeMap.set(location.id, this.createLocationNode(location));
     });

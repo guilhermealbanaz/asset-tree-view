@@ -137,6 +137,7 @@ const App: React.FC = () => {
                 return total + countComponents([item]);
               }, 0)
             }}
+            companyName={companies.find(company => company.id === selectedCompany)?.name || ''}
           />
         )}
       </main>

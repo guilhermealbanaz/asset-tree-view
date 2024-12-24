@@ -10,15 +10,20 @@ export const filterTree = (
       ? node.name.toLowerCase().includes(filters.searchText.toLowerCase())
       : true;
 
-    const matchesEnergySensor = filters.energySensors
+    const matchesEnergySensor = filters.energySensors === true
       ? node.type === 'component' && node.sensorType === 'energy'
       : true;
 
-    const matchesCriticalStatus = filters.criticalStatus
+    const matchesCriticalStatus = filters.criticalStatus === true
       ? node.type === 'component' && node.status === 'alert'
       : true;
 
+    const directMatch = matchesText && matchesEnergySensor && matchesCriticalStatus;
+    
     const newNode = { ...node };
+    
+    const hasActiveFilters = filters.searchText !== '' || filters.energySensors === true || filters.criticalStatus === true;
+    newNode.forceExpanded = hasActiveFilters && (directMatch || (node.children && node.children.length > 0));
     
     if (node.children && node.children.length > 0) {
       const filteredChildren = node.children
@@ -27,12 +32,16 @@ export const filterTree = (
 
       newNode.children = filteredChildren;
 
-      const shouldKeepNode = matchesText && matchesEnergySensor && matchesCriticalStatus || filteredChildren.length > 0;
-      return shouldKeepNode ? newNode : null;
+      const hasMatchingChild = filteredChildren.length > 0;
+      const shouldKeepNode = directMatch || hasMatchingChild;
+      
+      if (shouldKeepNode) {
+        return newNode;
+      }
+      return null;
     }
 
-    const shouldKeepNode = matchesText && matchesEnergySensor && matchesCriticalStatus;
-    return shouldKeepNode ? newNode : null;
+    return directMatch ? newNode : null;
   };
 
   const filteredNodes = nodes
@@ -43,4 +52,4 @@ export const filterTree = (
     filteredNodes,
     hasMatch: filteredNodes.length > 0
   };
-}; 
+};

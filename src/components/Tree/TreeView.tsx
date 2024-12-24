@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { TreeNode } from './TreeNode';
+import { TreeNode as TreeNodeType } from '../../types/Tree';
 import { FilterBar } from '../Filters/FilterBar';
 import { filterTree } from '../../utils/filterTree';
 import { Filters } from '../../types/Filters';
@@ -15,18 +16,24 @@ interface TreeViewProps {
     totalAssets: number;
     totalComponents: number;
   };
+  companyName: string;
 }
 
-export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo }) => {
+export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo, companyName }) => {
   const [filters, setFilters] = useState<Filters>({
     searchText: '',
     energySensors: false,
     criticalStatus: false
   });
 
-  const [selectedComponent, setSelectedComponent] = useState<TreeNode | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<TreeNodeType | null>(null);
+  const [visibleNodes, setVisibleNodes] = useState<TreeNodeType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadingRef = useRef<HTMLDivElement>(null);
 
-  const handleNodeClick = (node: TreeNode) => {
+  const handleNodeClick = (node: TreeNodeType) => {
     if (node.type === 'component') {
       setSelectedComponent(node);
     }
@@ -42,6 +49,47 @@ export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo }) => {
     return filteredNodes;
   }, [treeData, filters]);
 
+  useEffect(() => {
+    setVisibleNodes(filteredData.slice(0, itemsPerPage));
+    setCurrentPage(1);
+  }, [filteredData]);
+
+  const loadMoreItems = useCallback(() => {
+    const nextItems = filteredData.slice(
+      0,
+      Math.min((currentPage + 1) * itemsPerPage, filteredData.length)
+    );
+    setVisibleNodes(nextItems);
+    setCurrentPage(prev => prev + 1);
+  }, [currentPage, filteredData]);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && visibleNodes.length < filteredData.length) {
+        loadMoreItems();
+      }
+    }, options);
+
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
+    }
+
+    observerRef.current = observer;
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [loadMoreItems, visibleNodes.length, filteredData.length]);
+
   if (!data.locations && !data.assets) {
     return <div>Nenhum dado disponível</div>;
   }
@@ -52,7 +100,7 @@ export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo }) => {
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-medium text-[#24292F]">Ativos</h1>
           <span className="text-slate-400">/</span>
-          <span className="text-slate-400">Jaguar</span>
+          <span className="text-slate-400">{ companyName }</span>
         </div>
         <div className="flex items-center gap-3">
           <button 
@@ -119,16 +167,24 @@ export const TreeView: React.FC<TreeViewProps> = ({ data, companyInfo }) => {
 
           <div className="flex-1 overflow-y-auto min-h-0">
             <div className="py-2">
-              {filteredData.length > 0 ? (
-                filteredData.map((node, index) => (
-                  <TreeNode
-                    key={node.id}
-                    node={node}
-                    level={0}
-                    isLastChild={index === filteredData.length - 1}
-                    onNodeClick={handleNodeClick}
-                  />
-                ))
+              {visibleNodes.length > 0 ? (
+                <>
+                  {visibleNodes.map((node, index) => (
+                    <TreeNode
+                      key={node.id}
+                      node={node}
+                      level={0}
+                      isLastChild={index === visibleNodes.length - 1}
+                      onNodeClick={handleNodeClick}
+                      forceExpanded={node.forceExpanded}
+                    />
+                  ))}
+                  {visibleNodes.length < filteredData.length && (
+                    <div ref={loadingRef} className="py-4 text-center text-slate-400">
+                      Carregando mais itens...
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="text-center text-slate-500 py-8">
                   Nenhum resultado encontrado para os filtros selecionados

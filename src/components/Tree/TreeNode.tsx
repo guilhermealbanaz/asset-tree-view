@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TreeNode as ITreeNode } from '../../types/Tree';
 
 interface TreeNodeProps {
@@ -6,15 +6,23 @@ interface TreeNodeProps {
   level: number;
   isLastChild: boolean;
   onNodeClick?: (node: ITreeNode) => void;
+  forceExpanded?: boolean;
 }
 
 export const TreeNode: React.FC<TreeNodeProps> = ({ 
   node, 
   level, 
   isLastChild,
-  onNodeClick 
+  onNodeClick,
+  forceExpanded = false
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(forceExpanded);
+
+  useEffect(() => {
+    if (forceExpanded) {
+      setIsExpanded(true);
+    }
+  }, [forceExpanded]);
 
   const getNodeIcon = () => {
     switch (node.type) {
@@ -75,7 +83,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({
         onClick={handleClick}
       >
         <div className="flex items-center gap-2">
-          {node.children?.length > 0 && (
+          {node.children && node.children.length > 0 && (
             <span 
               className={`
                 text-xs text-[#2188FF] font-bold
@@ -121,6 +129,7 @@ export const TreeNode: React.FC<TreeNodeProps> = ({
               level={level + 1}
               isLastChild={index === node.children!.length - 1}
               onNodeClick={onNodeClick}
+              forceExpanded={forceExpanded}
             />
           ))}
         </div>

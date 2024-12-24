@@ -14,9 +14,7 @@ export interface TreeNode {
 export interface Asset {
   id: string;
   name: string;
-  type?: 'location' | 'component';
   sensor?: 'energy' | 'temperature' | 'vibration';
-  status?: 'normal' | 'warning' | 'critical';
   receptor?: string;
   children?: Asset[];
   image?: string;
@@ -26,6 +24,7 @@ export interface Asset {
 export interface TreeNode extends Asset {
   level: number;
   isLastChild: boolean;
+  forceExpanded?: boolean;
 }
 
 export interface TreeData {
