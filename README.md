@@ -1,42 +1,53 @@
 # Asset Tree View - TRACTIAN
 
-Este projeto é uma aplicação web desenvolvida como parte do desafio técnico da TRACTIAN. A aplicação consiste em uma visualização em árvore dos ativos de uma empresa, permitindo a navegação hierárquica entre diferentes níveis organizacionais.
+This web application was developed as part of TRACTIAN's technical challenge. The application provides a tree visualization of company assets, enabling hierarchical navigation across different organizational levels.
 
-## Funcionalidades
+## Features
 
-- Visualização hierárquica de ativos em estrutura de árvore
-- Seleção de empresas
-- Visualização detalhada de ativos
-- Interface responsiva e intuitiva
-- Indicadores visuais de status dos ativos
+- Hierarchical asset visualization in tree structure
+- Company selection and switching
+- Detailed asset information display
+- Advanced filtering system:
+  - Text search at any tree level
+  - Energy sensor filtering
+  - Critical status filtering
+  - Real-time filtering with immediate feedback
+- Windowed Infinite Scroll for handling large datasets
+- User-friendly interface
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - React
 - TypeScript
 - Vite
-- CSS Modules
-- Axios para requisições HTTP
+- Axios for HTTP requests
+- TailwindCSS for styling
 
-## Como Executar
+## Getting Started
 
-1. Clone o repositório
-2. Instale as dependências:
+1. Clone the repository
+2. Install dependencies:
 ```bash
 npm install
 ```
-3. Execute o projeto:
+3. Run the project:
 ```bash
 npm run dev
 ```
 
-## Estrutura do Projeto
+## Project Structure
 
-- `/src/components`: Componentes React reutilizáveis
-- `/src/services`: Serviços de API e integrações
-- `/src/utils`: Funções utilitárias
-- `/src/types`: Definições de tipos TypeScript
+- `/src/components`: Reusable React components
+- `/src/services`: API services and integrations
+- `/src/utils`: Utility functions
+- `/src/types`: TypeScript type definitions
 
-## Autor
+## Preview
+
+
+https://github.com/user-attachments/assets/d1c6c1fe-ee42-45dc-8152-b2166600312a
+
+
+## Author
 
 Guilherme Bragato Albanaz
