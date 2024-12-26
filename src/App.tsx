@@ -16,6 +16,11 @@ interface Company {
   name: string;
 }
 
+interface CacheData {
+  assets: Asset[];
+  locations: any[];
+}
+
 const App: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>('');
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -24,6 +29,7 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const initializeRef = useRef(false);
+  const companyDataCache = useRef<Record<string, CacheData>>({});
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -52,6 +58,13 @@ const App: React.FC = () => {
     const fetchData = async () => {
       if (!selectedCompany) return;
 
+      if (companyDataCache.current[selectedCompany]) {
+        const cachedData = companyDataCache.current[selectedCompany];
+        setAssets(cachedData.assets);
+        setLocations(cachedData.locations);
+        return;
+      }
+
       try {
         setIsLoading(true);
         const [assetsResponse, locationsResponse] = await Promise.all([
@@ -59,8 +72,16 @@ const App: React.FC = () => {
           api.getLocations(selectedCompany)
         ]);
         
-        setAssets(Array.isArray(assetsResponse) ? assetsResponse : []);
-        setLocations(Array.isArray(locationsResponse) ? locationsResponse : []);
+        const assetsData = Array.isArray(assetsResponse) ? assetsResponse : [];
+        const locationsData = Array.isArray(locationsResponse) ? locationsResponse : [];
+
+        companyDataCache.current[selectedCompany] = {
+          assets: assetsData,
+          locations: locationsData
+        };
+        
+        setAssets(assetsData);
+        setLocations(locationsData);
       } catch (err) {
         setError('Erro ao carregar os dados');
         console.error('Erro:', err);
